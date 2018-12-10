@@ -1,0 +1,20 @@
+<resources>
+    <string name="app_name">Baking App</string>
+    <string name="recipe_ingredients_title">Ingredients:</string>
+    <string name="recipe_steps">Steps:</string>
+    <string name="title_recipe_list">Recipies</string>
+    <string name="title_recipe_detail">Recipe Detail</string>
+
+    <string name="measure_cup">%1$s cups of %2$s</string>
+    <string name="measure_tsp">%1$s tea spoons of %2$s</string>
+    <string name="measure_tblsp">%1$s table spoons of %2$s</string>
+    <string name="measure_k">%1$skg of %2$s</string>
+    <string name="measure_g">%1$sg of %2$s</string>
+    <string name="measure_oz">%1$soz cups of %2$s</string>
+    <string name="measure_unit">%1$s %2$s</string>
+
+    <string name="configure">Select the recipe</string>
+    <string name="add_widget">OK</string>
+    <string name="try_again">Try again</string>
+    <string name="appwidget_text">Click here to select a recipe</string>
+</resources>

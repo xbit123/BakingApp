@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="activity_recipe_details" type="layout">@layout/activity_recipe_details_twopane</item>
+    <bool name="has_two_panes">true</bool>
+    <integer name="col_count">3</integer>
+</resources>
