@@ -12,7 +12,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.udproj.bakingapp.R;
-import com.udproj.bakingapp.details.viewmodel.DetailsSharedViewModel;
+import com.udproj.bakingapp.details.DetailsSharedViewModel;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;

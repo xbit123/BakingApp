@@ -14,7 +14,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.udproj.bakingapp.R;
-import com.udproj.bakingapp.details.viewmodel.DetailsSharedViewModel;
+import com.udproj.bakingapp.details.DetailsSharedViewModel;
 import com.udproj.bakingapp.details.RecipeStepsAdapter;
 import com.udproj.bakingapp.model.Cake;
 

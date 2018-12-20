@@ -11,15 +11,19 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".main.MainActivity">
+        <activity android:name=".main.MainActivity"
+            android:launchMode="singleTop">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".details.activity.RecipeDetailsActivity" />
-        <activity android:name=".details.activity.StepDetailsActivity" />
+        <activity android:name=".details.activity.RecipeDetailsActivity"
+            android:parentActivityName=".main.MainActivity"
+            android:launchMode="singleTop"/>
+        <activity android:name=".details.activity.StepDetailsActivity"
+            android:parentActivityName=".details.activity.RecipeDetailsActivity"/>
 
         <receiver android:name=".widget.IngredientsWidget">
             <intent-filter>
@@ -36,6 +40,11 @@
                 <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE" />
             </intent-filter>
         </activity>
+
+        <service
+            android:name=".widget.GridWidgetService"
+            android:permission="android.permission.BIND_REMOTEVIEWS" />
+
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />

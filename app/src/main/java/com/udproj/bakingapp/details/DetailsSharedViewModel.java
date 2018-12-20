@@ -1,4 +1,4 @@
-package com.udproj.bakingapp.details.viewmodel;
+package com.udproj.bakingapp.details;
 
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;

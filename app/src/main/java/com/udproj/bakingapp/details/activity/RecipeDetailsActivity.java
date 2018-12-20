@@ -6,10 +6,9 @@ import android.content.Intent;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.MenuItem;
 
 import com.udproj.bakingapp.R;
-import com.udproj.bakingapp.details.viewmodel.DetailsSharedViewModel;
+import com.udproj.bakingapp.details.DetailsSharedViewModel;
 import com.udproj.bakingapp.model.Cake;
 import com.udproj.bakingapp.utils.Constants;
 
@@ -50,16 +49,5 @@ public class RecipeDetailsActivity extends AppCompatActivity{
         intent.putExtra(Constants.INTENT_CAKE, Parcels.wrap(detailsViewModel.getCake()));
         intent.putExtra(Constants.INTENT_STEP_ID, stepId);
         startActivity(intent);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-        switch (id) {
-            case android.R.id.home:
-                onBackPressed();
-                return true;
-        }
-        return super.onOptionsItemSelected(item);
     }
 }

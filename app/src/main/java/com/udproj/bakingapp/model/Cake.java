@@ -44,16 +44,16 @@ public class Cake {
         int result;
         switch (name) {
             case "Brownies":
-                result = R.drawable.ic_brownies;
+                result = R.drawable.brownies;
                 break;
             case "Cheesecake":
-                result = R.drawable.ic_cheesecake;
+                result = R.drawable.cheesecake;
                 break;
             case "Nutella Pie":
-                result = R.drawable.ic_nutella_pie;
+                result = R.drawable.nutella_pie;
                 break;
             case "Yellow Cake":
-                result = R.drawable.ic_yellow_cake;
+                result = R.drawable.yellow_cake;
                 break;
             default:
                 result = R.drawable.ic_launcher_foreground;

@@ -3,10 +3,10 @@ package com.udproj.bakingapp.widget;
 import android.appwidget.AppWidgetManager;
 import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.Observer;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -14,25 +14,19 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
-import android.widget.Toast;
 
+import com.google.gson.Gson;
 import com.udproj.bakingapp.R;
 import com.udproj.bakingapp.model.Cake;
 import com.udproj.bakingapp.model.Ingredient;
-import com.udproj.bakingapp.utils.BakingApi;
-import com.udproj.bakingapp.utils.Constants;
 import com.udproj.bakingapp.utils.NetworkUtils;
 
-import java.text.DecimalFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
  * The configuration screen for the {@link IngredientsWidget IngredientsWidget} AppWidget.
@@ -48,7 +42,7 @@ public class IngredientsWidgetConfigureActivity extends AppCompatActivity {
     private static final String PREFS_NAME = "com.udproj.bakingapp.widget.IngredientsWidget";
     private static final String PREF_PREFIX_KEY = "appwidget_";
     private MutableLiveData<List<Cake>> cakes = new MutableLiveData<>();
-    private int mSelectedCake;
+    private int mSelectedCake = 0;
     int mAppWidgetId = AppWidgetManager.INVALID_APPWIDGET_ID;
 
 
@@ -57,21 +51,26 @@ public class IngredientsWidgetConfigureActivity extends AppCompatActivity {
     }
 
     // Write the prefix to the SharedPreferences object for this widget
-    static void saveTitlePref(Context context, int appWidgetId, String text) {
+    static void saveTitlePref(Context context, int appWidgetId, List<Ingredient> ingredients) {
+        Gson gson = new Gson();
+        String jsonText = gson.toJson(ingredients);
+
         SharedPreferences.Editor prefs = context.getSharedPreferences(PREFS_NAME, 0).edit();
-        prefs.putString(PREF_PREFIX_KEY + appWidgetId, text);
+        prefs.putString(PREF_PREFIX_KEY + appWidgetId, jsonText);
         prefs.apply();
     }
 
     // Read the prefix from the SharedPreferences object for this widget.
     // If there is no preference saved, get the default from a resource
-    static String loadTitlePref(Context context, int appWidgetId) {
+    static List<Ingredient> loadTitlePref(Context context, int appWidgetId) {
         SharedPreferences prefs = context.getSharedPreferences(PREFS_NAME, 0);
-        String titleValue = prefs.getString(PREF_PREFIX_KEY + appWidgetId, null);
-        if (titleValue != null) {
-            return titleValue;
+        String jsonText = prefs.getString(PREF_PREFIX_KEY + appWidgetId, null);
+        Gson gson = new Gson();
+        if (jsonText != null) {
+            Ingredient[] ingredientsSA = gson.fromJson(jsonText, Ingredient[].class);
+            return new ArrayList<>(Arrays.asList(ingredientsSA));
         } else {
-            return context.getString(R.string.appwidget_text);
+            return null;
         }
     }
 
@@ -130,11 +129,12 @@ public class IngredientsWidgetConfigureActivity extends AppCompatActivity {
                             final Context context = IngredientsWidgetConfigureActivity.this;
 
                             // When the button is clicked, store the string locally
-                            saveTitlePref(context, mAppWidgetId, cakesList.get(mSelectedCake).ingredientsToString(getApplicationContext()));
+                            saveTitlePref(context, mAppWidgetId, cakesList.get(mSelectedCake).getIngredients());
 
                             // It is the responsibility of the configuration activity to update the app widget
                             AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);
-                            IngredientsWidget.updateAppWidget(context, appWidgetManager, mAppWidgetId);
+                            //IngredientsWidget.updateAppWidget(context, appWidgetManager, mAppWidgetId);
+                            appWidgetManager.notifyAppWidgetViewDataChanged(mAppWidgetId, R.id.widget_grid_view);
 
                             // Make sure we pass back the original appWidgetId
                             Intent resultValue = new Intent();
@@ -155,6 +155,8 @@ public class IngredientsWidgetConfigureActivity extends AppCompatActivity {
             rb.setId(i);
             rgCakes.addView(rb);
         }
+
+        rgCakes.check(0);
 
         rgCakes.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override

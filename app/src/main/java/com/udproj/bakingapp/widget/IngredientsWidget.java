@@ -16,14 +16,24 @@ import com.udproj.bakingapp.R;
 public class IngredientsWidget extends AppWidgetProvider {
 
     static void updateAppWidget(Context context, AppWidgetManager appWidgetManager, int appWidgetId) {
-        Intent intent = new Intent(context, IngredientsWidgetConfigureActivity.class);
-        intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId);
-        PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.widget_grid_view);
 
-        String widgetText = IngredientsWidgetConfigureActivity.loadTitlePref(context, appWidgetId);
-        RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.ingredients_widget);
-        views.setOnClickPendingIntent(R.id.fl_widget, pendingIntent);
-        views.setTextViewText(R.id.tv_widget_ingredients, widgetText);
+        Intent adapterIntent = new Intent(context, GridWidgetService.class);
+        adapterIntent.putExtra("appWidgetId", appWidgetId);
+        views.setRemoteAdapter(R.id.widget_grid_view, adapterIntent);
+
+        //Set pending intent template
+        Intent appIntent = new Intent(context, IngredientsWidgetConfigureActivity.class);
+        appIntent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId);
+        PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, appIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        views.setPendingIntentTemplate(R.id.widget_grid_view, pendingIntent);
+
+        //String widgetText = IngredientsWidgetConfigureActivity.loadTitlePref(context, appWidgetId);
+
+        views.setEmptyView(R.id.widget_grid_view, R.id.widget_empty_grid_view);
+
+        //views.setTextViewText(R.id.tv_widget_ingredients, widgetText);
+        //appWidgetManager.notifyAppWidgetViewDataChanged(appWidgetId, R.id.widget_grid_view);
         appWidgetManager.updateAppWidget(appWidgetId, views);
     }
 

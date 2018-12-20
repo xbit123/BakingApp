@@ -7,7 +7,7 @@
     android:layout_height="match_parent">
 
     <fragment
-        android:id="@+id/fragment6"
+        android:id="@+id/fragment4"
         android:name="com.udproj.bakingapp.details.fragment.StepDetailsFragment"
         android:layout_width="0dp"
         android:layout_height="0dp"
